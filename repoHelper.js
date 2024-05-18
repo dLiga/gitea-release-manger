@@ -9,7 +9,7 @@ const createHeaders = (token) => ({
 });
 
 const createTag = async (token, giteaURL, repositoryName, tagName, tagDescription, target) => {
-  const url = `${giteaURL}/repos/${repositoryName}/tags`;
+  const url = `${giteaURL}/${repositoryName}/tags`;
 
   console.log(url)
 
@@ -28,7 +28,7 @@ const createTag = async (token, giteaURL, repositoryName, tagName, tagDescriptio
 };
 
 const createRelease = async (token, giteaURL, repositoryName, releaseName, releaseDescription, tagName, tagSha) => {
-  const url = `${giteaURL}/repos/${repositoryName}/releases`;
+  const url = `${giteaURL}/${repositoryName}/releases`;
 
   console.log(url);
 
@@ -62,7 +62,7 @@ const createAttachment = async (token, giteaURL, repositoryName, attachmentPath,
     contentType: 'application/gzip',
   });
 
-  const url = `${giteaURL}/repos/${repositoryName}/releases/${releaseId}/assets?name=${attachmentName}.tar.gz`;
+  const url = `${giteaURL}/${repositoryName}/releases/${releaseId}/assets?name=${attachmentName}.tar.gz`;
   const headers = { Authorization: `token ${token}`, ...form.getHeaders() };
 
   try {
