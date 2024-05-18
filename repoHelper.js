@@ -61,7 +61,7 @@ const createAttachment = async (token, giteaURL, repositoryUser, repositoryName,
 
   try {
     const response = await axios.post(url, form, { headers });
-    if (response.status ?= 200 && response.status < 300) {
+    if (response.status >= 200 && response.status < 300) {
       const { id, name } = response.data;
       return { id, name };
     }
