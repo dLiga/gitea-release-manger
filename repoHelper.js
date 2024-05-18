@@ -66,6 +66,7 @@ const createAttachment = async (token, giteaURL, repositoryName, attachmentPath,
     const response = await axios.post(url, form, { headers });
     if (response.status >= 200 && response.status < 300) {
       const { id, name } = response.data;
+      console.log("Тэг создан: ${response.data}");
       return { id, name };
     }
   } catch (error) {

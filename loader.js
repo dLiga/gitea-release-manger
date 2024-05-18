@@ -13,8 +13,7 @@ const path = core.getInput('path');//'./path/to/your/attachment'
 try {
   switch (command) {
       case 'createTag':
-          const tagResult = createTag(token, giteaURL, repository, tag, tag, 'main');
-          console.log("Тэг создан: SHA=${tagResult.sha}, Name=${tagResult.name}");
+          const tagResult = createTag(token, giteaURL, repository, tag, tag, 'main');         
           break;
       case 'createRelease':
           const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag, tagResult.sha);
