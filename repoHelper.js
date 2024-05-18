@@ -26,6 +26,9 @@ const createTag = async (token, giteaURL, repositoryName, tagName, tagDescriptio
 
 const createRelease = async (token, giteaURL, repositoryName, releaseName, releaseDescription, tagName, tagSha) => {
   const url = `${giteaURL}/repos/${repositoryName}/releases`;
+
+  console.log(url);
+
   const data = {
     body: releaseDescription,
     draft: false,
