@@ -32,34 +32,38 @@ const createRelease = async (token, giteaURL, repository, releaseName, releaseDe
   axios.post(url, releaseData, { headers })
   .then(response => {
     console.log('Релиз создан:', response.data);
+    return response.data;
   })
   .catch(error => {
     console.error('Ошибка при создании релиза:', error.response ? error.response.data : error.message);
+    return false;
   });
 };
 
-const createAttachment = async (token, giteaURL, repositoryName, attachmentPath, attachmentName, releaseId) => {
-  execSync(`tar -C ${attachmentPath} -czf /tmp/attachment.tar.gz .`);
-  const fileData = fs.readFileSync('/tmp/attachment.tar.gz');
+const createAttachment = async (token, giteaURL, repository, attachmentPath, attachmentName, releaseId) => {
+
+  const fileType = 'application/x-zip-compressed';
+  const url = `${giteaURL}/api/v1/repos/${repository}/releases/${releaseId}/assets?name=${attachmentName}&token=${token}`;
+
   const form = new FormData();
-  form.append('attachment', fileData, {
-    filename: `${attachmentName}.tar.gz`,
-    contentType: 'application/gzip',
+  form.append('attachment', fs.createReadStream(attachmentPath+attachmentName), {
+    filename: path.basename(attachmentName),
+    contentType: fileType,
   });
 
-  const url = `${giteaURL}/${repositoryName}/releases/${releaseId}/assets?name=${attachmentName}.tar.gz`;
-  const headers = { Authorization: `token ${token}`, ...form.getHeaders() };
+  const headers = {
+    ...form.getHeaders(),
+    'accept': 'application/json',
+  };
 
-  try {
-    const response = await axios.post(url, form, { headers });
-    if (response.status >= 200 && response.status < 300) {
-      const { id, name } = response.data;
-      console.log("Тэг создан: ${response.data}");
-      return { id, name };
-    }
-  } catch (error) {
-    throw new Error(`Ошибка при загрузке вложения. Код: ${error.response.status} Текст: ${error.response.data}`);
-  }
+  axios.post(url, form, { headers })
+    .then(response => {
+      console.log('Вложение загружено:', response.data);
+    })
+    .catch(error => {
+      console.error('Ошибка при загрузке вложения:', error.response ? error.response.data : error.message);
+    });
+
 };
 
 module.exports = {

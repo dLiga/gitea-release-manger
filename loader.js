@@ -9,6 +9,7 @@ const repository = core.getInput('repository');
 const command = core.getInput('command');
 const tag = core.getInput('tag');//'v1.0.0'
 const path = core.getInput('path');//'./path/to/your/attachment'
+const attachmentName = core.getInput('attachmentName');
 
 try {
   switch (command) {
@@ -17,10 +18,17 @@ try {
           break;
       case 'createRelease':
           const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag);
+          core.setOutput('release',releaseResult.id);
           break;
       case 'createAttachment':
           const attachmentResult = createAttachment(token, giteaURL, repository, path, tag + ".tar.gz", releaseResult.id);
-          console.log("Вложение загружено: ID=${attachmentResult.id}, Name=${attachmentResult.name}");
+          break;
+      case 'createReleaseWithAttachment':
+      	  const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag);
+      	  if (releaseResult != false){
+          	const attachmentResult = createAttachment(token, giteaURL, repository, path, tag + ".tar.gz", releaseResult.id);
+          	core.setOutput('release',releaseResult.id);
+          }
           break;
       default:
           core.setFailed("Такая команда не найдена");

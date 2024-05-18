@@ -19,6 +19,12 @@ inputs:
   path:
     description: 'Path to attachment'
     required: true
+  attachmentName:
+    description: 'Attachment name'
+    required: true
+outputs:
+  release:
+    description: 'Id of release'
 runs:
   using: 'node20'
   main: 'loader.js'
