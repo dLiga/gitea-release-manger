@@ -4,7 +4,7 @@ const github = require('@actions/github');
 const { createTag, createRelease, createAttachment } = require('./repoHelper');
 
 const token = core.getInput('token');
-const giteaURL = core.getInput('repo');
+const giteaURL = core.getInput('url');
 const repositoryUser = core.getInput('login');
 const repositoryName = core.getInput('repositoryName');
 const command = core.getInput('command');

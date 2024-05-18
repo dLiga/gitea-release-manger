@@ -1,8 +1,8 @@
 name: 'gitea-release-manger'
 description: 'gitea-release-manger'
 inputs:
-  repo:
-    description: 'Repository url'
+  url:
+    description: 'Git url'
     required: true
   token:
     description: 'Token fot gitea'
