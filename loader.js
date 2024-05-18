@@ -16,8 +16,7 @@ try {
           const tagResult = createTag(token, giteaURL, repository, tag, tag, 'main');         
           break;
       case 'createRelease':
-          const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag, "");
-          console.log("Релиз создан: ID=${releaseResult.id}, Name=${releaseResult.name}");
+          const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag);
           break;
       case 'createAttachment':
           const attachmentResult = createAttachment(token, giteaURL, repository, path, tag + ".tar.gz", releaseResult.id);
