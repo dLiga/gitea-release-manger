@@ -16,7 +16,7 @@ try {
           const tagResult = createTag(token, giteaURL, repository, tag, tag, 'main');         
           break;
       case 'createRelease':
-          const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag, tagResult.sha);
+          const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag, "");
           console.log("Релиз создан: ID=${releaseResult.id}, Name=${releaseResult.name}");
           break;
       case 'createAttachment':
