@@ -8,8 +8,8 @@ const createHeaders = (token) => ({
   'Content-Type': 'application/json',
 });
 
-const createTag = async (token, giteaURL, repositoryUser, repositoryName, tagName, tagDescription, target) => {
-  const url = `${giteaURL}/repos/${repositoryUser}/${repositoryName}/tags`;
+const createTag = async (token, giteaURL, repositoryName, tagName, tagDescription, target) => {
+  const url = `${giteaURL}/repos/${repositoryName}/tags`;
   const body = { message: tagDescription, tag_name: tagName, target: target };
   const headers = createHeaders(token);
 
@@ -24,8 +24,8 @@ const createTag = async (token, giteaURL, repositoryUser, repositoryName, tagNam
   }
 };
 
-const createRelease = async (token, giteaURL, repositoryUser, repositoryName, releaseName, releaseDescription, tagName, tagSha) => {
-  const url = `${giteaURL}/repos/${repositoryUser}/${repositoryName}/releases`;
+const createRelease = async (token, giteaURL, repositoryName, releaseName, releaseDescription, tagName, tagSha) => {
+  const url = `${giteaURL}/repos/${repositoryName}/releases`;
   const data = {
     body: releaseDescription,
     draft: false,
@@ -47,7 +47,7 @@ const createRelease = async (token, giteaURL, repositoryUser, repositoryName, re
   }
 };
 
-const createAttachment = async (token, giteaURL, repositoryUser, repositoryName, attachmentPath, attachmentName, releaseId) => {
+const createAttachment = async (token, giteaURL, repositoryName, attachmentPath, attachmentName, releaseId) => {
   execSync(`tar -C ${attachmentPath} -czf /tmp/attachment.tar.gz .`);
   const fileData = fs.readFileSync('/tmp/attachment.tar.gz');
   const form = new FormData();
@@ -56,7 +56,7 @@ const createAttachment = async (token, giteaURL, repositoryUser, repositoryName,
     contentType: 'application/gzip',
   });
 
-  const url = `${giteaURL}/repos/${repositoryUser}/${repositoryName}/releases/${releaseId}/assets?name=${attachmentName}.tar.gz`;
+  const url = `${giteaURL}/repos/${repositoryName}/releases/${releaseId}/assets?name=${attachmentName}.tar.gz`;
   const headers = { Authorization: `token ${token}`, ...form.getHeaders() };
 
   try {

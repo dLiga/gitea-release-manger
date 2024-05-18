@@ -7,10 +7,7 @@ inputs:
   token:
     description: 'Token fot gitea'
     required: true
-  login:
-    description: 'Repository user login'
-    required: true
-  repositoryName:
+  repository:
     description: 'Repository name'
     required: true
   command:
