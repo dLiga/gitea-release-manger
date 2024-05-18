@@ -10,6 +10,9 @@ const createHeaders = (token) => ({
 
 const createTag = async (token, giteaURL, repositoryName, tagName, tagDescription, target) => {
   const url = `${giteaURL}/repos/${repositoryName}/tags`;
+
+  console.log(url)
+
   const body = { message: tagDescription, tag_name: tagName, target: target };
   const headers = createHeaders(token);
 
