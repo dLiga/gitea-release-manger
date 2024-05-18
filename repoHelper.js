@@ -8,49 +8,34 @@ const createHeaders = (token) => ({
   'Content-Type': 'application/json',
 });
 
-const createTag = async (token, giteaURL, repositoryName, tagName, tagDescription, target) => {
-  const url = `${giteaURL}/${repositoryName}/tags`;
+const createTag = async (token, giteaURL, repository, tagName, tagDescription, target) => {
 
-  console.log(url)
-
-  const body = { message: tagDescription, tag_name: tagName, target: target };
-  const headers = createHeaders(token);
-
-  try {
-    const response = await axios.post(url, body, { headers });
-    if (response.status >= 200 && response.status < 300) {
-      const { commit, name } = response.data;
-      return { sha: commit.sha, name };
-    }
-  } catch (error) {
-    throw new Error(`Ошибка при создании тега. Код: ${error.response.status} Текст: ${error.response.data}`);
-  }
 };
 
-const createRelease = async (token, giteaURL, repositoryName, releaseName, releaseDescription, tagName, tagSha) => {
-  const url = `${giteaURL}/${repositoryName}/releases`;
+const createRelease = async (token, giteaURL, repository, releaseName, releaseDescription, tagName, tagSha) => {
+  const url = "${giteaURL}/api/v1/${repository}/releases?token=${token}";
 
-  console.log(url);
-
-  const data = {
+  const releaseData = {
     body: releaseDescription,
-    draft: false,
+    draft: true,
     name: releaseName,
-    prerelease: false,
+    prerelease: true,
     tag_name: tagName,
-    target_commitish: tagSha,
+    target_commitish: tagName
   };
-  const headers = createHeaders(token);
 
-  try {
-    const response = await axios.post(url, data, { headers });
-    if (response.status >= 200 && response.status < 300) {
-      const { id, name } = response.data;
-      return { id, name };
-    }
-  } catch (error) {
-    throw new Error(`Ошибка при создании релиза. Код: ${error.response.status} Текст: ${error.response.data}`);
-  }
+  const headers = {
+    'accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+
+  axios.post(url, releaseData, { headers })
+  .then(response => {
+    console.log('Релиз создан:', response.data);
+  })
+  .catch(error => {
+    console.error('Ошибка при создании релиза:', error.response ? error.response.data : error.message);
+  });
 };
 
 const createAttachment = async (token, giteaURL, repositoryName, attachmentPath, attachmentName, releaseId) => {
