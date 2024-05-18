@@ -20,7 +20,7 @@ const createTag = async (token, giteaURL, repositoryUser, repositoryName, tagNam
       return { sha: commit.sha, name };
     }
   } catch (error) {
-    throw new Error(`Error to create Tags status_code: ${error.response.status} error message: ${error.response.data}`);
+    throw new Error(`Ошибка при создании тега. Код: ${error.response.status} Текст: ${error.response.data}`);
   }
 };
 
@@ -43,7 +43,7 @@ const createRelease = async (token, giteaURL, repositoryUser, repositoryName, re
       return { id, name };
     }
   } catch (error) {
-    throw new Error(`Error to create Release status_code: ${error.response.status} error message: ${error.response.data}`);
+    throw new Error(`Ошибка при создании релиза. Код: ${error.response.status} Текст: ${error.response.data}`);
   }
 };
 
@@ -66,7 +66,7 @@ const createAttachment = async (token, giteaURL, repositoryUser, repositoryName,
       return { id, name };
     }
   } catch (error) {
-    throw new Error(`Error to upload attachment status_code: ${error.response.status} error message: ${error.response.data}`);
+    throw new Error(`Ошибка при загрузке вложения. Код: ${error.response.status} Текст: ${error.response.data}`);
   }
 };
 
