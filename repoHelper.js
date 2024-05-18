@@ -13,7 +13,7 @@ const createTag = async (token, giteaURL, repository, tagName, tagDescription, t
 };
 
 const createRelease = async (token, giteaURL, repository, releaseName, releaseDescription, tagName) => {
-  const url = `${giteaURL}/api/v1/${repository}/releases?token=${token}`;
+  const url = `${giteaURL}/api/v1/repos/${repository}/releases?token=${token}`;
   console.log('Ссылка: ', url);
   const releaseData = {
     body: releaseDescription,
