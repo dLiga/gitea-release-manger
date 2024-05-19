@@ -21,12 +21,12 @@ try {
           core.setOutput('release',releaseResult.id);
           break;
       case 'createAttachment':
-          const attachmentResult = createAttachment(token, giteaURL, repository, path, tag + ".tar.gz", releaseResult.id);
+          const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
       case 'createReleaseWithAttachment':
       	  const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag);
       	  if (releaseResult != false){
-          	const attachmentResult = createAttachment(token, giteaURL, repository, path, tag + ".tar.gz", releaseResult.id);
+          	const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           	core.setOutput('release',releaseResult.id);
           }
           break;
