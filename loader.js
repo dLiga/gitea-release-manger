@@ -24,8 +24,8 @@ try {
           const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
       case 'createReleaseWithAttachment':
-      	  const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag);
-      	  if (releaseResult != false){
+      	  const releaseResult2 = createRelease(token, giteaURL, repository, tag, tag, tag);
+      	  if (releaseResult2 != false){
           	const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           	core.setOutput('release',releaseResult.id);
           }
