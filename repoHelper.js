@@ -68,7 +68,7 @@ const createAttachment = async (token, giteaURL, repository, attachmentPath, att
 
   const form = new FormData();
   form.append('attachment', fs.createReadStream(attachmentPath+attachmentName), {
-    filename: path.basename(attachmentName),
+    filename: attachmentName,
     contentType: fileType,
   });
 
