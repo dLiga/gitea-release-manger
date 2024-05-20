@@ -24,9 +24,9 @@ try {
           const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
       case 'fullCreate':
-          const tagResultFull = createTag(token, giteaURL, repository, tag, tag);  
-      	  const releaseResultFull = createRelease(token, giteaURL, repository, tag, tag, tag);
-      	  const attachmentResultFull = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResultFull.id);         
+          const tagResultFull = await createTag(token, giteaURL, repository, tag, tag);  
+      	  const releaseResultFull = await createRelease(token, giteaURL, repository, tag, tag, tag);
+      	  const attachmentResultFull = await createAttachment(token, giteaURL, repository, path, attachmentName, releaseResultFull.id);         
           break;
       default:
           core.setFailed("Такая команда не найдена");
