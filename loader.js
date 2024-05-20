@@ -37,8 +37,12 @@ const fullCreate = async () => {
     console.log(`Тег из параметров: ${tag}`);
     if (tag == ""){
       var info  = await getLastCommitMessage();
+
+      console.log(`Последний комит: ${info}`);
+
       tag = info.split('\n')[0];
       tag = tag[0].split(' ')[0];
+      
       console.log(`Тег на основе комита: ${tag}`);
     }
 
