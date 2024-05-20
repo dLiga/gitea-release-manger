@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const { exec } = require('child_process');
+const { format } = require('date-fns');
 
 const { createTag, createRelease, createAttachment } = require('./repoHelper');
 
@@ -11,6 +12,15 @@ const command = core.getInput('command');
 var tag = core.getInput('tag');//'v1.0.0'
 const path = core.getInput('path');//'./path/to/your/attachment'
 const attachmentName = core.getInput('attachmentName');
+
+const parsePullRequestString = (input) => {
+  const regex = /Merge pull request\s+'(.+?)'\s+\(\!\d+\)\s+from/;
+  const match = input.match(regex);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return "release-" + format(new Date(), 'yyyy-MM-dd-HH:mm:ss');
+};
 
 const getLastCommitMessage = async () => {
   return new Promise((resolve, reject) => {
@@ -40,9 +50,8 @@ const fullCreate = async () => {
 
       console.log(`Последний комит: ${info}`);
 
-      tag = info.split('\n')[0];
-      tag = tag[0].split(' ')[0];
-      
+      tag = parsePullRequestString(info);
+
       console.log(`Тег на основе комита: ${tag}`);
     }
 
