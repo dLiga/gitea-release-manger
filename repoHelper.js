@@ -24,7 +24,7 @@ const createTag = async (token, giteaURL, repository, tagName, tagDescription, t
 
   axios.post(url, data, { headers })
   .then(response => {
-    console.log('Тег создан:', response.data);
+    console.log('Тег создан:.');//, response.data);
     return response.data;
   })
   .catch(error => {
@@ -52,7 +52,7 @@ const createRelease = async (token, giteaURL, repository, releaseName, releaseDe
 
   axios.post(url, releaseData, { headers })
   .then(response => {
-    console.log('Релиз создан:', response.data);
+    console.log('Релиз создан.');//, response.data);
     return response.data;
   })
   .catch(error => {
@@ -79,7 +79,7 @@ const createAttachment = async (token, giteaURL, repository, attachmentPath, att
 
   axios.post(url, form, { headers })
     .then(response => {
-      console.log('Вложение загружено:', response.data);
+      console.log('Вложение загружено.');//, response.data);
     })
     .catch(error => {
       console.error('Ошибка при загрузке вложения:', error.response ? error.response.data : error.message);
