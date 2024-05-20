@@ -11,6 +11,18 @@ const tag = core.getInput('tag');//'v1.0.0'
 const path = core.getInput('path');//'./path/to/your/attachment'
 const attachmentName = core.getInput('attachmentName');
 
+const fullCreate = async () => {
+  try {
+    const tagData = await createTag(token, giteaURL, repository, tagName, tagDescription);
+    const releaseData = await createRelease(token, giteaURL, repository, releaseName, releaseDescription, tagName);
+    const releaseId = releaseData.id; // используем идентификатор релиза для загрузки вложения
+    const attachmentData = await createAttachment(token, giteaURL, repository, attachmentPath, attachmentName, releaseId);
+    console.log('Все операции выполнены успешно.');
+  } catch (error) {
+    console.error('Ошибка при выполнении операций:', error.message);
+  }
+};
+
 try {
   switch (command) {
       case 'createTag':
@@ -34,14 +46,3 @@ try {
   core.setFailed(error.message);
 }
 
-const fullCreate = async () => {
-  try {
-    const tagData = await createTag(token, giteaURL, repository, tagName, tagDescription);
-    const releaseData = await createRelease(token, giteaURL, repository, releaseName, releaseDescription, tagName);
-    const releaseId = releaseData.id; // используем идентификатор релиза для загрузки вложения
-    const attachmentData = await createAttachment(token, giteaURL, repository, attachmentPath, attachmentName, releaseId);
-    console.log('Все операции выполнены успешно.');
-  } catch (error) {
-    console.error('Ошибка при выполнении операций:', error.message);
-  }
-};
