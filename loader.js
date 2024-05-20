@@ -12,18 +12,6 @@ var tag = core.getInput('tag');//'v1.0.0'
 const path = core.getInput('path');//'./path/to/your/attachment'
 const attachmentName = core.getInput('attachmentName');
 
-const fullCreate = async () => {
-  try {
-    const tagData = await createTag(token, giteaURL, repository, tag, tag);
-    const releaseData = await createRelease(token, giteaURL, repository, tag, tag, tag);
-    const releaseId = releaseData.id; // используем идентификатор релиза для загрузки вложения
-    const attachmentData = await createAttachment(token, giteaURL, repository, path, attachmentName, releaseId);
-    console.log('Все операции выполнены успешно.');
-  } catch (error) {
-    core.setFailed(`Ошибка при выполнении операций: ${error.message}`);
-  }
-};
-
 const getLastCommitMessage = async () => {
   return new Promise((resolve, reject) => {
     exec('git log -1 --pretty=%B', (error, stdout, stderr) => {
@@ -43,6 +31,25 @@ const getLastCommitMessage = async () => {
   });
 };
 
+const fullCreate = async () => {
+  try {
+
+    console.log(`Тег из параметров: ${tag}`);
+    if (tag == ""){
+      tag = await getLastCommitMessage();
+      console.log(`Тег на основе комита: ${tag}`);
+    }
+
+    const tagData = await createTag(token, giteaURL, repository, tag, tag);
+    const releaseData = await createRelease(token, giteaURL, repository, tag, tag, tag);
+    const releaseId = releaseData.id; // используем идентификатор релиза для загрузки вложения
+    const attachmentData = await createAttachment(token, giteaURL, repository, path, attachmentName, releaseId);
+    console.log('Все операции выполнены успешно.');
+  } catch (error) {
+    core.setFailed(`Ошибка при выполнении операций: ${error.message}`);
+  }
+};
+
 try {
   switch (command) {
       case 'createTag':
@@ -56,11 +63,6 @@ try {
           const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
       case 'fullCreate':
-          console.log(`Тег из параметров: ${tag}`);
-          if (tag == ""){
-            tag = getLastCommitMessage();
-            console.log(`Тег на основе комита: ${tag}`);
-          }
           fullCreate();       
           break;
       default:
