@@ -24,9 +24,7 @@ try {
           const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
       case 'fullCreate':
-          const tagResultFull = await createTag(token, giteaURL, repository, tag, tag);  
-      	  const releaseResultFull = await createRelease(token, giteaURL, repository, tag, tag, tag);
-      	  const attachmentResultFull = await createAttachment(token, giteaURL, repository, path, attachmentName, releaseResultFull.id);         
+          fullCreate();       
           break;
       default:
           core.setFailed("Такая команда не найдена");
@@ -35,3 +33,15 @@ try {
 } catch (error) {
   core.setFailed(error.message);
 }
+
+const fullCreate = async () => {
+  try {
+    const tagData = await createTag(token, giteaURL, repository, tagName, tagDescription);
+    const releaseData = await createRelease(token, giteaURL, repository, releaseName, releaseDescription, tagName);
+    const releaseId = releaseData.id; // используем идентификатор релиза для загрузки вложения
+    const attachmentData = await createAttachment(token, giteaURL, repository, attachmentPath, attachmentName, releaseId);
+    console.log('Все операции выполнены успешно.');
+  } catch (error) {
+    console.error('Ошибка при выполнении операций:', error.message);
+  }
+};
