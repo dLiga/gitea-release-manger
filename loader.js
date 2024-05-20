@@ -8,7 +8,7 @@ const token = core.getInput('token');
 const giteaURL = core.getInput('url');
 const repository = core.getInput('repository');
 const command = core.getInput('command');
-const tag = core.getInput('tag');//'v1.0.0'
+var tag = core.getInput('tag');//'v1.0.0'
 const path = core.getInput('path');//'./path/to/your/attachment'
 const attachmentName = core.getInput('attachmentName');
 
