@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { exec } = require('child_process');
 
 const { createTag, createRelease, createAttachment } = require('./repoHelper');
 
@@ -23,6 +24,25 @@ const fullCreate = async () => {
   }
 };
 
+const getLastCommitMessage = async () => {
+  return new Promise((resolve, reject) => {
+    exec('git log -1 --pretty=%B', (error, stdout, stderr) => {
+      if (error) {
+        console.error('Ошибка при выполнении git команды:', error);
+        reject(error);
+        return;
+      }
+      if (stderr) {
+        console.error('stderr:', stderr);
+        reject(new Error(stderr));
+        return;
+      }
+
+      resolve(stdout.trim());
+    });
+  });
+};
+
 try {
   switch (command) {
       case 'createTag':
@@ -36,6 +56,9 @@ try {
           const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
       case 'fullCreate':
+          if (tag == ""){
+            tag = getLastCommitMessage();
+          }
           fullCreate();       
           break;
       default:
