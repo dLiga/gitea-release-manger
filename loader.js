@@ -56,8 +56,10 @@ try {
           const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
       case 'fullCreate':
+          console.log(`Тег из параметров: ${tag}`);
           if (tag == ""){
             tag = getLastCommitMessage();
+            console.log(`Тег на основе комита: ${tag}`);
           }
           fullCreate();       
           break;
