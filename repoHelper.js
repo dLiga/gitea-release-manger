@@ -8,7 +8,7 @@ const createHeaders = (token) => ({
   'Content-Type': 'application/json',
 });
 
-const createTag = async (token, giteaURL, repository, tagName, tagDescription, target) => {
+const createTag = (token, giteaURL, repository, tagName, tagDescription, target) => {
   const url = `${giteaURL}/api/v1/repos/${repository}/tags?token=${token}`;
   console.log('Ссылка: ', url);
 
@@ -33,7 +33,7 @@ const createTag = async (token, giteaURL, repository, tagName, tagDescription, t
   });
 };
 
-const createRelease = async (token, giteaURL, repository, releaseName, releaseDescription, tagName) => {
+const createRelease = (token, giteaURL, repository, releaseName, releaseDescription, tagName) => {
   const url = `${giteaURL}/api/v1/repos/${repository}/releases?token=${token}`;
   console.log('Ссылка: ', url);
   const releaseData = {
@@ -61,7 +61,7 @@ const createRelease = async (token, giteaURL, repository, releaseName, releaseDe
   });
 };
 
-const createAttachment = async (token, giteaURL, repository, attachmentPath, attachmentName, releaseId) => {
+const createAttachment = (token, giteaURL, repository, attachmentPath, attachmentName, releaseId) => {
 
   const fileType = 'application/x-zip-compressed';
   const url = `${giteaURL}/api/v1/repos/${repository}/releases/${releaseId}/assets?name=${attachmentName}&token=${token}`;
