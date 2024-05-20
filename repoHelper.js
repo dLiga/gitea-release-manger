@@ -22,15 +22,14 @@ const createTag = async (token, giteaURL, repository, tagName, tagDescription, t
     'Content-Type': 'application/json'
   };
 
-  axios.post(url, data, { headers })
-  .then(response => {
-    console.log('Тег создан:.');//, response.data);
+  try {
+    const response = await axios.post(url, data, { headers });
+    console.log('Тег создан.');
     return response.data;
-  })
-  .catch(error => {
+  } catch (error) {
     console.error('Ошибка при создании тега:', error.response ? error.response.data : error.message);
     throw error;
-  });
+  }
 };
 
 const createRelease = async (token, giteaURL, repository, releaseName, releaseDescription, tagName) => {
@@ -50,15 +49,14 @@ const createRelease = async (token, giteaURL, repository, releaseName, releaseDe
     'Content-Type': 'application/json'
   };
 
-  axios.post(url, releaseData, { headers })
-  .then(response => {
-    console.log('Релиз создан.');//, response.data);
+  try {
+    const response = await axios.post(url, releaseData, { headers });
+    console.log('Релиз создан.');
     return response.data;
-  })
-  .catch(error => {
+  } catch (error) {
     console.error('Ошибка при создании релиза:', error.response ? error.response.data : error.message);
     throw error;
-  });
+  }
 };
 
 const createAttachment = async (token, giteaURL, repository, attachmentPath, attachmentName, releaseId) => {
@@ -77,14 +75,14 @@ const createAttachment = async (token, giteaURL, repository, attachmentPath, att
     'accept': 'application/json',
   };
 
-  axios.post(url, form, { headers })
-    .then(response => {
-      console.log('Вложение загружено.');//, response.data);
-    })
-    .catch(error => {
-      console.error('Ошибка при загрузке вложения:', error.response ? error.response.data : error.message);
-      throw error;
-    });
+  try {
+    const response = await axios.post(url, form, { headers });
+    console.log('Вложение загружено.');
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при загрузке вложения:', error.response ? error.response.data : error.message);
+    throw error;
+  }
 
 };
 
