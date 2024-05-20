@@ -26,9 +26,7 @@ try {
       case 'fullCreate':
           const tagResultFull = createTag(token, giteaURL, repository, tag, tag);  
       	  const releaseResultFull = createRelease(token, giteaURL, repository, tag, tag, tag);
-      	  if (releaseResultFull != false){
-          	const attachmentResultFull = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResultFull.id);
-          }
+      	  const attachmentResultFull = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResultFull.id);         
           break;
       default:
           core.setFailed("Такая команда не найдена");
