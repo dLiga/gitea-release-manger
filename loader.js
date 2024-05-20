@@ -14,7 +14,7 @@ const attachmentName = core.getInput('attachmentName');
 try {
   switch (command) {
       case 'createTag':
-          const tagResult = createTag(token, giteaURL, repository, tag, tag, 'main');         
+          const tagResult = createTag(token, giteaURL, repository, tag, tag);         
           break;
       case 'createRelease':
           const releaseResult = createRelease(token, giteaURL, repository, tag, tag, tag);
@@ -23,11 +23,11 @@ try {
       case 'createAttachment':
           const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
           break;
-      case 'createReleaseWithAttachment':
-      	  const releaseResult2 = createRelease(token, giteaURL, repository, tag, tag, tag);
-      	  if (releaseResult2 != false){
-          	const attachmentResult = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResult.id);
-          	core.setOutput('release',releaseResult.id);
+      case 'fullCreate':
+          const tagResultFull = createTag(token, giteaURL, repository, tag, tag);  
+      	  const releaseResultFull = createRelease(token, giteaURL, repository, tag, tag, tag);
+      	  if (releaseResultFull != false){
+          	const attachmentResultFull = createAttachment(token, giteaURL, repository, path, attachmentName, releaseResultFull.id);
           }
           break;
       default:

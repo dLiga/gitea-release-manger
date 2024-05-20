@@ -9,7 +9,28 @@ const createHeaders = (token) => ({
 });
 
 const createTag = async (token, giteaURL, repository, tagName, tagDescription, target) => {
+  const url = `${giteaURL}/api/v1/repos/${repository}/tags?token=${token}`;
+  console.log('Ссылка: ', url);
 
+  const data = {
+    message: tagDescription,
+    tag_name: tagName
+  };
+
+  const headers = {
+    'accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+
+  axios.post(url, data, { headers })
+  .then(response => {
+    console.log('Тег создан:', response.data);
+    return response.data;
+  })
+  .catch(error => {
+    console.error('Ошибка при создании тега:', error.response ? error.response.data : error.message);
+    return false;
+  });
 };
 
 const createRelease = async (token, giteaURL, repository, releaseName, releaseDescription, tagName) => {
